@@ -1,0 +1,184 @@
+<div
+  #page
+  class="site-shell"
+  [class.menu-open]="isMenuOpen"
+  [class.modal-open]="isRequestOpen"
+  [attr.dir]="preferences.locale() === 'ar' ? 'rtl' : 'ltr'"
+>
+  <header class="topbar">
+    <a class="brand" routerLink="/" aria-label="MARSA home" (click)="closeMenu()">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="brand-name">MARSA</span>
+      <span class="brand-arabic">مرسى</span>
+    </a>
+
+    <nav class="desktop-nav" [attr.aria-label]="text(copy.nav.menu)">
+      <a href="#services">{{ text(copy.nav.services) }}</a>
+      <a href="#provisioning">{{ text(copy.nav.provisioning) }}</a>
+      <a href="#destinations">{{ text(copy.nav.destinations) }}</a>
+      <a href="#about">{{ text(copy.nav.about) }}</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-button theme-button" type="button" (click)="preferences.toggleTheme()" [attr.aria-label]="text(copy.nav.switchTheme)">
+        <svg *ngIf="preferences.theme() === 'light'" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        <svg *ngIf="preferences.theme() === 'dark'" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.1A8.5 8.5 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"></path></svg>
+      </button>
+      <button class="locale-button" type="button" (click)="preferences.toggleLocale()">
+        <span [class.active]="preferences.locale() === 'en'">EN</span><span class="divider">/</span><span [class.active]="preferences.locale() === 'ar'">العربية</span>
+      </button>
+      <button class="request-button desktop-request" type="button" (click)="openRequest()">
+        {{ text(copy.nav.request) }} <span aria-hidden="true">↗</span>
+      </button>
+      <button class="menu-toggle" type="button" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen" [attr.aria-label]="isMenuOpen ? text(copy.nav.close) : text(copy.nav.menu)">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" [class.open]="isMenuOpen">
+    <div class="mobile-menu-inner">
+      <p class="eyebrow">{{ text(copy.nav.menu) }}</p>
+      <a href="#services" (click)="closeMenu()">{{ text(copy.nav.services) }} <span>↗</span></a>
+      <a href="#provisioning" (click)="closeMenu()">{{ text(copy.nav.provisioning) }} <span>↗</span></a>
+      <a href="#destinations" (click)="closeMenu()">{{ text(copy.nav.destinations) }} <span>↗</span></a>
+      <a href="#about" (click)="closeMenu()">{{ text(copy.nav.about) }} <span>↗</span></a>
+      <button type="button" (click)="openRequest()">{{ text(copy.nav.request) }} <span>↗</span></button>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-image" role="img" aria-label="A yacht crossing the Saudi Red Sea at golden hour"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-content">
+        <p class="eyebrow hero-eyebrow"><span class="eyebrow-line"></span>{{ text(copy.hero.eyebrow) }}</p>
+        <h1 id="hero-title">{{ text(copy.hero.title) }}</h1>
+        <p class="hero-description">{{ text(copy.hero.body) }}</p>
+        <div class="hero-actions">
+          <button class="button button-light" type="button" (click)="openRequest()">{{ text(copy.hero.primary) }} <span aria-hidden="true">↗</span></button>
+          <a class="button button-quiet" href="#services">{{ text(copy.hero.secondary) }} <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <div class="hero-meta"><span>21° 32′ N</span><span class="meta-rule"></span><span>RED SEA / SAUDI ARABIA</span></div>
+      <a class="scroll-cue" href="#services"><span class="scroll-circle">↓</span>{{ text(copy.hero.scroll) }}</a>
+    </section>
+
+    <section class="intro-band reveal">
+      <div class="section-wrap intro-grid">
+        <p class="section-number">01 <span></span> MARSA</p>
+        <p class="intro-statement">{{ text(copy.sections.servicesBody) }}</p>
+        <span class="intro-glyph" aria-hidden="true">◌</span>
+      </div>
+    </section>
+
+    <section class="section-wrap services-section" id="services" aria-labelledby="services-title">
+      <div class="section-heading reveal">
+        <div>
+          <p class="eyebrow">{{ text(copy.sections.servicesEyebrow) }}</p>
+          <h2 id="services-title">{{ text(copy.sections.servicesTitle) }}</h2>
+        </div>
+        <p class="heading-aside">{{ text(copy.sections.servicesBody) }}</p>
+      </div>
+      <div class="services-grid">
+        <article class="service-card reveal" *ngFor="let service of services; let i = index" [class]="'accent-' + service.accent">
+          <div class="service-card-visual"><img [src]="service.image" [alt]="text(service.title)" loading="lazy" /><span class="card-index">{{ service.eyebrow }}</span></div>
+          <div class="service-card-copy"><h3>{{ text(service.title) }}</h3><p>{{ text(service.description) }}</p><a href="#provisioning" aria-label="{{ text(service.title) }}">{{ text(copy.sections.explore) }} <span aria-hidden="true">↗</span></a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="dark-section provisioning-section" id="provisioning" aria-labelledby="provisioning-title">
+      <div class="section-wrap">
+        <div class="section-heading light-heading reveal">
+          <div><p class="eyebrow">{{ text(copy.sections.provisioningEyebrow) }}</p><h2 id="provisioning-title">{{ text(copy.sections.provisioningTitle) }}</h2></div>
+          <span class="large-index">02</span>
+        </div>
+        <div class="steps-grid">
+          <div class="step reveal" *ngFor="let step of steps; let i = index"><span class="step-number">0{{ i + 1 }}</span><span class="step-line"></span><h3>{{ text(step) }}</h3></div>
+        </div>
+        <div class="provisioning-detail reveal">
+          <div class="detail-image"><img src="assets/deck.svg" alt="An arranged yacht deck ready for guests" loading="lazy" /></div>
+          <div class="detail-copy"><p class="eyebrow">{{ text(copy.sections.productsEyebrow) }}</p><h3>Considered from the first crate to the last glass.</h3><p>Our team works quietly behind the scenes so the only thing you notice is how ready everything feels.</p><button class="text-link light-link" type="button" (click)="openRequest()">{{ text(copy.sections.request) }} <span>↗</span></button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-wrap collection-section reveal" aria-labelledby="products-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">{{ text(copy.sections.productsEyebrow) }}</p><h2 id="products-title">{{ text(copy.sections.productsTitle) }}</h2></div>
+        <p class="heading-aside">{{ text(copy.sections.productsBody) }}</p>
+      </div>
+      <div class="product-grid">
+        <article class="product-card" *ngFor="let product of products">
+          <div class="product-image"><img [src]="product.image" [alt]="text(product.name)" loading="lazy" /><span class="product-category">{{ text(product.category) }}</span><button type="button" (click)="openRequest()" [attr.aria-label]="text(copy.sections.request)">+</button></div>
+          <div class="product-copy"><h3>{{ text(product.name) }}</h3><p>{{ text(product.description) }}</p><span>{{ product.price }}</span></div>
+        </article>
+      </div>
+      <button class="outline-button" type="button" (click)="openRequest()">{{ text(copy.sections.viewCollection) }} <span>↗</span></button>
+    </section>
+
+    <section class="destination-section" id="destinations" aria-labelledby="destinations-title">
+      <div class="section-wrap">
+        <div class="section-heading light-heading reveal">
+          <div><p class="eyebrow">{{ text(copy.sections.destinationsEyebrow) }}</p><h2 id="destinations-title">{{ text(copy.sections.destinationsTitle) }}</h2></div>
+          <p class="heading-aside">{{ text(copy.sections.destinationsBody) }}</p>
+        </div>
+        <div class="destination-grid">
+          <article class="destination-card reveal" *ngFor="let destination of destinations">
+            <img [src]="destination.image" [alt]="text(destination.name)" loading="lazy" />
+            <div class="destination-overlay"></div>
+            <div class="destination-copy"><span class="destination-coordinates">{{ text(destination.detail) }}</span><h3>{{ text(destination.name) }}</h3><p>{{ text(destination.description) }}</p><a href="#contact">{{ text(copy.sections.explore) }} <span>↗</span></a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="marina-section reveal" id="about" aria-labelledby="marina-title">
+      <div class="section-wrap marina-grid">
+        <div class="marina-image"><img src="assets/jeddah.svg" alt="Jeddah marina at dusk" loading="lazy" /><span class="image-caption">JEDDAH / 21° 32′ N</span></div>
+        <div class="marina-copy"><p class="eyebrow">{{ text(copy.sections.marinaEyebrow) }}</p><h2 id="marina-title">{{ text(copy.sections.marinaTitle) }}</h2><p>{{ text(copy.sections.marinaBody) }}</p><div class="marina-list"><span>Marina delivery</span><span>Yacht support</span><span>Crew assistance</span><span>Special requests</span></div><button class="text-link" type="button" (click)="openRequest()">{{ text(copy.sections.concierge) }} <span>↗</span></button></div>
+      </div>
+    </section>
+
+    <section class="hospitality-section">
+      <div class="hospitality-image"></div><div class="hospitality-overlay"></div>
+      <div class="section-wrap hospitality-copy reveal"><p class="eyebrow">{{ text(copy.sections.hospitalityEyebrow) }}</p><h2>{{ text(copy.sections.hospitalityTitle) }}</h2><p>{{ text(copy.sections.hospitalityBody) }}</p><span class="hospitality-mark">مَرْسَى</span></div>
+    </section>
+
+    <section class="testimonial-section section-wrap reveal" aria-labelledby="testimonial-title">
+      <div class="quote-mark">“</div><p class="eyebrow">{{ text(copy.sections.testimonialsEyebrow) }}</p><h2 id="testimonial-title">{{ text(copy.sections.testimonialsTitle) }}</h2>
+      <blockquote>{{ preferences.locale() === 'ar' ? 'جعلت مرسى عملية التموين سهلة وسلسة من لحظة الوصول حتى المغادرة.' : 'MARSA made provisioning effortless from arrival to departure.' }}<cite>{{ preferences.locale() === 'ar' ? 'الكابتن سامي · جدة' : 'Captain Sami · Jeddah' }}</cite></blockquote>
+    </section>
+
+    <section class="cta-section" id="contact" aria-labelledby="cta-title">
+      <div class="section-wrap cta-wrap reveal"><p class="eyebrow">{{ text(copy.sections.hospitalityEyebrow) }}</p><h2 id="cta-title">{{ text(copy.sections.ctaTitle) }}</h2><p>{{ text(copy.sections.ctaBody) }}</p><div class="cta-actions"><button class="button button-light" type="button" (click)="openRequest()">{{ text(copy.sections.request) }} <span>↗</span></button><button class="button button-outline-light" type="button" (click)="openRequest()">{{ text(copy.sections.concierge) }} <span>↗</span></button></div></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="section-wrap footer-grid">
+      <div class="footer-brand"><a class="brand" routerLink="/"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span class="brand-name">MARSA</span><span class="brand-arabic">مرسى</span></a><p>{{ text(copy.footer.descriptor) }}</p><span class="footer-signature">SEA / SERVICE / SAUDI</span></div>
+      <div class="footer-column"><p class="eyebrow">{{ text(copy.footer.navigation) }}</p><a href="#services">{{ text(copy.nav.services) }}</a><a href="#provisioning">{{ text(copy.nav.provisioning) }}</a><a href="#destinations">{{ text(copy.nav.destinations) }}</a><a href="#about">{{ text(copy.nav.about) }}</a></div>
+      <div class="footer-column"><p class="eyebrow">{{ text(copy.footer.services) }}</p><a href="#services">{{ text(services[0].title) }}</a><a href="#services">{{ text(services[1].title) }}</a><a href="#services">{{ text(services[2].title) }}</a><a href="#services">{{ text(services[3].title) }}</a></div>
+      <div class="footer-column"><p class="eyebrow">{{ text(copy.footer.contact) }}</p><span>{{ text(copy.footer.location) }}</span><a href="mailto:concierge@marsa.sa">{{ text(copy.footer.email) }}</a><a href="tel:+966120000000">{{ text(copy.footer.phone) }}</a><div class="socials"><a href="#contact" aria-label="Instagram">IG</a><a href="#contact" aria-label="LinkedIn">LI</a></div></div>
+    </div>
+    <div class="section-wrap footer-bottom"><span>{{ text(copy.footer.rights) }}</span><span>EN <span class="divider">/</span> العربية</span><span>Built for the Red Sea</span></div>
+  </footer>
+
+  <div class="modal-backdrop" *ngIf="isRequestOpen" (click)="closeRequest()">
+    <section class="request-modal" role="dialog" aria-modal="true" aria-labelledby="request-title" (click)="$event.stopPropagation()">
+      <button class="modal-close" type="button" (click)="closeRequest()" [attr.aria-label]="text(copy.nav.close)">×</button>
+      <ng-container *ngIf="!requestSent; else thankYou">
+        <p class="eyebrow">{{ text(copy.sections.provisioningEyebrow) }}</p><h2 id="request-title">{{ text(copy.sections.request) }}</h2><p class="modal-intro">{{ text(copy.sections.ctaBody) }}</p>
+        <form (ngSubmit)="submitRequest()">
+          <label><span>{{ preferences.locale() === 'ar' ? 'الاسم' : 'Name' }}</span><input name="name" [(ngModel)]="requestName" required /></label>
+          <label><span>{{ preferences.locale() === 'ar' ? 'البريد الإلكتروني' : 'Email' }}</span><input type="email" name="email" [(ngModel)]="requestEmail" required /></label>
+          <label><span>{{ preferences.locale() === 'ar' ? 'كيف نساعدك؟' : 'How can we help?' }}</span><textarea name="notes" rows="3" [(ngModel)]="requestNotes"></textarea></label>
+          <button class="button button-dark" type="submit">{{ text(copy.sections.request) }} <span>↗</span></button>
+        </form>
+      </ng-container>
+      <ng-template #thankYou><div class="thank-you"><span class="thank-you-mark">✓</span><p class="eyebrow">{{ preferences.locale() === 'ar' ? 'تم الاستلام' : 'Request received' }}</p><h2>{{ preferences.locale() === 'ar' ? 'سنعود إليك قريباً.' : 'We’ll be in touch shortly.' }}</h2><p>{{ preferences.locale() === 'ar' ? 'سيتواصل معك فريق الكونسيرج في أقرب وقت.' : 'Our concierge team will follow up with the right details for your voyage.' }}</p><button class="outline-button" type="button" (click)="closeRequest()">{{ preferences.locale() === 'ar' ? 'إغلاق' : 'Close' }}</button></div></ng-template>
+    </section>
+  </div>
+</div>
